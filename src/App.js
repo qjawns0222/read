@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from "react";
+
+class Foo extends React.Component {
+  componentDidMount() {
+    console.log("foo didmount");
+  }
+
+  componentWillUnmount() {
+    console.log("foo wiilunmount", this.props.children);
+  }
+
+  static getDerivedStateFromProps(next, pre) {
+    console.log("getPRop", next, pre);
+
+    return {};
+  }
+
+  render() {
+    console.log("render", this.props.children);
+
+    return <p>Foo</p>;
+  }
+}
+
+class App extends React.Component {
+  state = {
+    count: 0,
+  };
+
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ count: this.state.count + 1 });
+    }, 1000);
+  }
+
+  render() {
+    if (this.state.count % 2 === 0)
+      return (
+        <ul>
+          <Foo key={2}>second</Foo>
+
+          <Foo key={3}>third</Foo>
+        </ul>
+      );
+
+    return (
+      <ul>
+        <Foo key={1}>first</Foo>
+
+        <Foo key={2}>second</Foo>
+
+        <Foo key={3}>third</Foo>
+      </ul>
+    );
+  }
 }
 
 export default App;
